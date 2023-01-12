@@ -73,4 +73,13 @@ const createViz = (data) => {
     .attr("fill", (d) =>
       d.technology === "D3.js" ? "yellowgreen" : "skyblue"
     );
+
+  bar
+    .append("text")
+    .text((d) => d.technology)
+    .attr("x", 96)
+    .attr("y", 12)
+    .attr("text-anchor", "end")
+    .style("font-family", "sans-serif")
+    .style("font-size", "11px")
 };
