@@ -2,7 +2,7 @@ const svg = d3
   .select(".responsive-svg-container")
   .append("svg")
   .attr("viewBox", "0 0 600 700")
-  .style("border", "1px solid black");
+  // .style("border", "1px solid black");
 
 // svg
 //   .append("rect")
@@ -81,5 +81,15 @@ const createViz = (data) => {
     .attr("y", 12)
     .attr("text-anchor", "end")
     .style("font-family", "sans-serif")
-    .style("font-size", "11px")
+    .style("font-size", "11px");
+
+  bar
+    .append("text")
+    .text((d) => d.count)
+    .attr("x", (d) => 100 + xScale(d.count) + 4)
+    .attr("y", 11)
+    .style('font-family', 'sans-serif')
+    .style('font-size', "9px")
+
+  svg.append('line').attr("x1", 100).attr("y1", 0).attr("x2", 100).attr("y2", 700).attr('stroke', 'black').attr("stroke-width", 2)
 };
