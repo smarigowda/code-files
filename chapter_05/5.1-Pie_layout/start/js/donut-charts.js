@@ -43,6 +43,7 @@ const drawDonutCharts = (data) => {
       .data(annotatedDate)
       .join("path")
       .attr("class", `arc-${year}`)
-      .attr("d", arcGenerator);
+      .attr("d", arcGenerator)
+      .attr('fill', d => colorScale(d.data.format))
   });
 };
