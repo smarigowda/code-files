@@ -41,9 +41,34 @@ const drawDonutCharts = (data) => {
     const arcs = donutContainer
       .selectAll(`path.arc-${year}`)
       .data(annotatedDate)
-      .join("path")
+      .join("g");
+
+    arcs
+      .append("path")
       .attr("class", `arc-${year}`)
       .attr("d", arcGenerator)
-      .attr('fill', d => colorScale(d.data.format))
+      .attr("fill", (d) => colorScale(d.data.format));
+
+    arcs
+      .append("text")
+      .text((d) => {
+        d["percentage"] = (d.endAngle - d.startAngle) / (2 * Math.PI);
+        return d3.format(".0%")(d.percentage);
+      })
+      .attr("x", (d) => {
+        d["centroid"] = arcGenerator
+          .startAngle(d.startAngle)
+          .endAngle(d.endAngle)
+          .centroid();
+        return d.centroid[0];
+      })
+      .attr("y", (d) => d.centroid[1])
+      .attr("text-anchor", 'middle')
+      .attr("alignment-baseline", "middle")
+      .attr('fill', "#f6fafc")
+      .style("font-size", "16px")
+      .style("font-weight", 500)
+      .attr("fill-opacity", d => d.percentage <= 0.05 ? 0 : 1)
+
   });
 };
