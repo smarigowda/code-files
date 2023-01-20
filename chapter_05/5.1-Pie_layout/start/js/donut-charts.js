@@ -25,6 +25,14 @@ const drawDonutCharts = (data) => {
       .append("g")
       .attr("transform", `translate(${xScale(year)}, ${innerHeight / 2})`);
 
+    donutContainer
+      .append("text")
+      .text(year)
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .style("font-size", "24px")
+      .style("font-weight", 500)
+
     const pieGenerator = d3.pie().value((d) => d.sales);
     const annotatedDate = pieGenerator(formattedData);
     console.log(annotatedDate);
@@ -63,12 +71,11 @@ const drawDonutCharts = (data) => {
         return d.centroid[0];
       })
       .attr("y", (d) => d.centroid[1])
-      .attr("text-anchor", 'middle')
+      .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr('fill', "#f6fafc")
+      .attr("fill", "#f6fafc")
       .style("font-size", "16px")
       .style("font-weight", 500)
-      .attr("fill-opacity", d => d.percentage <= 0.05 ? 0 : 1)
-
+      .attr("fill-opacity", (d) => (d.percentage <= 0.05 ? 0 : 1));
   });
 };
