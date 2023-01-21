@@ -20,7 +20,7 @@ const drawDonutCharts = (data) => {
     musicFormats.forEach((format) => {
       formattedData.push({ format, sales: yearData[format] });
     });
-    // console.log(formattedData)
+
     const donutContainer = donutContainers
       .append("g")
       .attr("transform", `translate(${xScale(year)}, ${innerHeight / 2})`);
@@ -31,11 +31,10 @@ const drawDonutCharts = (data) => {
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .style("font-size", "24px")
-      .style("font-weight", 500)
+      .style("font-weight", 500);
 
     const pieGenerator = d3.pie().value((d) => d.sales);
     const annotatedDate = pieGenerator(formattedData);
-    console.log(annotatedDate);
 
     const arcGenerator = d3
       .arc()
