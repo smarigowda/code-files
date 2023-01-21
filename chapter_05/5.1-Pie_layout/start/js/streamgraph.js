@@ -37,6 +37,18 @@ const drawStreamGraph = (data) => {
     .y1((d) => yScale(d[1]))
     .curve(d3.curveCatmullRom);
 
+  const bottomAxis = d3
+    .axisBottom(xScale)
+    .tickValues(d3.range(1975, 2020, 5))
+    .tickSizeOuter(0)
+    .tickSize(innerHeight * -1);
+
+  innerChart
+    .append("g")
+    .attr("class", "x-axis-streamgraph")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis);
+
   innerChart
     .append("g")
     .attr("class", "areas-container")
@@ -49,17 +61,4 @@ const drawStreamGraph = (data) => {
   const leftAxis = d3.axisLeft(yScale);
 
   innerChart.append("g").call(leftAxis);
-
-  const bottomAxis = d3
-    .axisBottom(xScale)
-    .tickValues(d3.range(1975, 2020, 5))
-    .tickSizeOuter(0);
-
-  innerChart
-    .append("g")
-    .attr("class", "x-axis-streamgraph")
-    .attr("transform", `translate(0, ${innerHeight})`)
-    .call(bottomAxis)
-  
-  
 };
