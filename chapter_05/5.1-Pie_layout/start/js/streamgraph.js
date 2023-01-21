@@ -44,5 +44,22 @@ const drawStreamGraph = (data) => {
     .data(annnotatedData)
     .join("path")
     .attr("d", areaGenerator)
-    .attr('fill', d => colorScale(d.key))
+    .attr("fill", (d) => colorScale(d.key));
+
+  const leftAxis = d3.axisLeft(yScale);
+
+  innerChart.append("g").call(leftAxis);
+
+  const bottomAxis = d3
+    .axisBottom(xScale)
+    .tickValues(d3.range(1975, 2020, 5))
+    .tickSizeOuter(0);
+
+  innerChart
+    .append("g")
+    .attr("class", "x-axis-streamgraph")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis)
+  
+  
 };
