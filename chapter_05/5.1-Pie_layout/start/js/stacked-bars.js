@@ -14,24 +14,43 @@ const drawStackedBars = (data) => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const stackGenerator = d3.stack().keys(formatsInfo.map((f) => f.id));
+  const stackGenerator = d3
+    .stack()
+    .keys(formatsInfo.map((f) => f.id))
+    .order(d3.stackOrderDescending)
+    // .order(d3.stackOrderAscending)
+    .offset(d3.stackOffsetExpand);
+
   const annnotatedData = stackGenerator(data);
   console.log(annnotatedData);
 
-  const maxUpperBoundary = d3.max(
-    annnotatedData[annnotatedData.length - 1],
-    (d) => d[1]
-  );
-  console.log(maxUpperBoundary);
+  // this works only for the default stacking order (order none)
+  // same order as in the array, so the last series, d[1] can be used to find the max domain value
+  // const maxUpperBoundary = d3.max(
+  //   annnotatedData[annnotatedData.length - 1],
+  //   (d) => d[1]
+  // );
+
+  const minLowerBoundaries = [];
+  const maxUpperBoundaries = [];
+
+  annnotatedData.forEach((series) => {
+    minLowerBoundaries.push(d3.min(series, (d) => d[0]));
+    maxUpperBoundaries.push(d3.max(series, (d) => d[1]));
+  });
+  console.log(minLowerBoundaries);
+  console.log(maxUpperBoundaries);
+
+  const minDomain = d3.min(minLowerBoundaries);
+  const maxDomain = d3.max(maxUpperBoundaries);
 
   const yScale = d3
     .scaleLinear()
-    .domain([0, maxUpperBoundary])
+    .domain([minDomain, maxDomain])
     .range([innerHeight, 0])
-    .nice();
+    // .nice();
 
   annnotatedData.forEach((series) => {
-    console.log(series);
     innerChart
       .selectAll(`.bar-${series.key}`)
       .data(series)
@@ -54,7 +73,7 @@ const drawStackedBars = (data) => {
     .attr("transform", `translate(0, ${innerHeight})`)
     .call(bottomAxis);
 
-  const leftAxis = d3.axisLeft(yScale);
+  const leftAxis = d3.axisLeft(yScale)
 
-  innerChart.append("g").call(leftAxis)
+  innerChart.append("g").call(leftAxis);
 };
