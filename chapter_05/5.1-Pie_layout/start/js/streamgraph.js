@@ -5,6 +5,7 @@ const drawStreamGraph = (data) => {
   /*******************************/
   /*    Append the containers    */
   /*******************************/
+  
   const svg = d3
     .select("#streamgraph")
     .append("svg")
