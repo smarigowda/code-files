@@ -13,6 +13,7 @@ const drawStreamGraph = (data) => {
   const leftAxisLabel = svg.append("text").attr("dominant-baseline", "hanging");
 
   leftAxisLabel.append("tspan").text("Total revenue");
+
   leftAxisLabel
     .append("tspan")
     .text("(million USD)")
@@ -23,25 +24,43 @@ const drawStreamGraph = (data) => {
     .text("Adjusted for inflation")
     .attr("x", 0)
     .attr("y", 20)
-    .attr("fill-opacity", 0.7).style('font-size', '14px')
+    .attr("fill-opacity", 0.7)
+    .style("font-size", "14px");
 
   const innerChart = svg
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const stackGenerator = d3.stack().keys(formatsInfo.map((f) => f.id));
+  const stackGenerator = d3
+    .stack()
+    .keys(formatsInfo.map((f) => f.id))
+    .order(d3.stackOrderInsideOut)
+    .offset(d3.stackOffsetSilhouette);
 
   const annnotatedData = stackGenerator(data);
   console.log(annnotatedData);
 
+  // this works only for the defalut values
   const maxUpperBoundary = d3.max(
     annnotatedData[annnotatedData.length - 1],
     (d) => d[1]
   );
 
+  const minLowerBoundaries = [];
+  const maxUpperBoundaries = [];
+
+  annnotatedData.forEach((series) => {
+    minLowerBoundaries.push(d3.min(series, (d) => d[0]));
+    maxUpperBoundaries.push(d3.max(series, (d) => d[1]));
+  });
+
+  const minDomain = d3.min(minLowerBoundaries);
+  const maxDomain = d3.max(maxUpperBoundaries);
+
   const yScale = d3
     .scaleLinear()
-    .domain([0, maxUpperBoundary])
+    // .domain([0, maxUpperBoundary])
+    .domain([minDomain, maxDomain])
     .range([innerHeight, 0])
     .nice();
 
@@ -76,4 +95,24 @@ const drawStreamGraph = (data) => {
   const leftAxis = d3.axisLeft(yScale);
 
   innerChart.append("g").call(leftAxis);
+
+  // legends
+  const legendItems = d3
+    .select(".legend-container")
+    .append("ul")
+    .attr("class", "color-legend")
+    .selectAll(".color-legend-item")
+    .data(formatsInfo)
+    .join("li")
+    .attr("class", "color-legend-item");
+
+  legendItems
+    .append("span")
+    .attr("class", "color-legend-item-color")
+    .style("background-color", (d) => d.color);
+
+  legendItems
+    .append("span")
+    .attr("class", "color-legend-item-label")
+    .text((d) => d.label);
 };
