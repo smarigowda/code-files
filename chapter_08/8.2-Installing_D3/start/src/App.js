@@ -13,14 +13,14 @@ const App = () => {
     d3.json(dataURL).then((data) => {
       setData(data);
       setLoading(false);
-      console.log(data)
+      console.log(data);
     });
   }, []);
 
   return (
     <div className="container">
       {loading && <div className="loading">Loading...</div>}
-      {!loading && <Charts />}
+      {!loading && <Charts data={data} />}
     </div>
   );
 };

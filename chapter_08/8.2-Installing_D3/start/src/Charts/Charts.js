@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-
+import * as d3 from "d3";
 import Rankings from "./Rankings";
 import ScatterplotD3Controlled from "./ScatterplotD3Controlled";
 import BarChart from "./BarChart";
@@ -11,20 +11,30 @@ const Charts = (props) => {
     bottom: 50,
     left: 60,
   };
+
+  const colorScale = d3
+    .scaleOrdinal()
+    .domain(props.data.ids)
+    .range(d3.schemeTableau10);
+
   return (
     <Fragment>
       <h1>Front-end Frameworks</h1>
       <div className="row">
         <div className="col-9">
-          <Rankings margin={margin}/>
+          <Rankings margin={margin} />
         </div>
         <div className="col-3">
           <div className="row">
             <div className="col-12">
-              <ScatterplotD3Controlled margin={margin}/>
+              <ScatterplotD3Controlled
+                margin={margin}
+                colorScale={colorScale}
+                data={props.data.experience}
+              />
             </div>
             <div className="col-12">
-              <BarChart margin={margin}/>
+              <BarChart margin={margin} />
             </div>
           </div>
         </div>
