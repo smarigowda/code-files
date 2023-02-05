@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import Circle from "../ChartComponents/Circle";
 import Card from "../UI/Card";
 import ChartContainer from "../ChartComponents/ChartContainer";
+import Axis from "../ChartComponents/Axis";
 
 const ScatterplotReactControlled = (props) => {
   console.log("----- props -----", props);
@@ -20,6 +21,20 @@ const ScatterplotReactControlled = (props) => {
     <Card>
       <h2>Retention vs Usage</h2>
       <ChartContainer width={width} height={height} margin={props.margin}>
+        <Axis
+          type="bottom"
+          scale={xScale}
+          innerWidth={innerWidth}
+          innerHeight={innerHeight}
+          label={"User Count"}
+        />
+        <Axis
+          type="left"
+          scale={yScale}
+          innerWidth={innerWidth}
+          innerHeight={innerHeight}
+          label={"Retention Percentage"}
+        />
         {props.data.map((framework) => {
           console.log("----- framework -----", framework);
           return (
