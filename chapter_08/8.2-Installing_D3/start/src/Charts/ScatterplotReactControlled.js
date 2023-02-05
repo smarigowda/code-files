@@ -33,7 +33,7 @@ const ScatterplotReactControlled = (props) => {
           scale={yScale}
           innerWidth={innerWidth}
           innerHeight={innerHeight}
-          label={"Retention Percentage"}
+          label={"Retention %"}
         />
         {props.data.map((framework) => {
           console.log("----- framework -----", framework);

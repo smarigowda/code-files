@@ -34,7 +34,34 @@ const AxisBottom = (props) => {
 };
 
 const AxisLeft = (props) => {
-  return <g></g>;
+  const numberOfTicks = props.innerHeight / 50;
+  const ticks = props.scale.ticks(numberOfTicks);
+  return (
+    <g className="axis">
+      <line x1={0} y1={0} x2={0} y2={props.innerHeight} />
+      {ticks.map((tick) => {
+        return (
+          <g
+            key={`tick-${tick}`}
+            transform={`translate(0, ${props.scale(tick)})`}
+          >
+            <line x1={-5} y1={0} x2={0} y2={0} />
+            <text x={-10} y={0} textAnchor="end" alignmentBaseline="middle">
+              {tick}
+            </text>
+          </g>
+        );
+      })}
+      {props.label && (
+        <text
+          textAnchor="middle"
+          transform={`translate(-42, ${props.innerHeight / 2}) rotate(-90)`}
+        >
+          {props.label}
+        </text>
+      )}
+    </g>
+  );
 };
 
 const AxisBandBottom = (props) => {
