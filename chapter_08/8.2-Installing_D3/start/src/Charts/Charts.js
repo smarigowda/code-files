@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import * as d3 from "d3";
 import Rankings from "./Rankings";
 import ScatterplotD3Controlled from "./ScatterplotD3Controlled";
+import ScatterplotReactControlled from "./ScatterplotReactControlled";
 import BarChart from "./BarChart";
 
 const Charts = (props) => {
@@ -27,7 +28,12 @@ const Charts = (props) => {
         <div className="col-3">
           <div className="row">
             <div className="col-12">
-              <ScatterplotD3Controlled
+              {/* <ScatterplotD3Controlled
+                margin={margin}
+                colorScale={colorScale}
+                data={props.data.experience}
+              /> */}
+              <ScatterplotReactControlled
                 margin={margin}
                 colorScale={colorScale}
                 data={props.data.experience}
