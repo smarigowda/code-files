@@ -20,6 +20,15 @@ const AxisBottom = (props) => {
           </g>
         );
       })}
+      {props.label && (
+        <text
+          className="axis-label"
+          textAnchor="middle"
+          transform={`translate(${props.innerWidth / 2}, 45)`}
+        >
+          {props.label}
+        </text>
+      )}
     </g>
   );
 };
